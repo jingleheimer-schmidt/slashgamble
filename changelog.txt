@@ -1,0 +1,8 @@
+---------------------------------------------------------------------------------------------------
+Version: 0.0.1
+Date: 08SEP2023
+  Changes:
+    - initial release to the mod portal
+  Features:
+    - added the /gamble <all|half|random|amount> chat/console command
+    - added game setting to change the gambling curency item
