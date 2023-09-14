@@ -24,7 +24,7 @@ local function gamble_number(player, parameters)
       return
     end
     if gamble_amount > currency_count then
-      player.print({ "cmd.gamble-no-currency", currency_name, currency_localised_name})
+      player.print({ "cmd.gamble-not-enough-currency", currency_name, currency_localised_name})
       return
     end
     local gamble_min = math.ceil(gamble_amount / 1000)
