@@ -150,8 +150,7 @@ local function gamble(player, parameter)
     return
   end
 
-  local chance = math.random(1, 100)
-  local gamble_min, gamble_max
+  local chance = math.random(0, 100)
 
   gamble_amount = math.floor(gamble_amount)
 
