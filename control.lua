@@ -50,6 +50,43 @@ local function format_number(number)
 
   return formatted_number .. abbreviations[num_abbreviation]
 end
+
+---@param ticks number
+---@return LocalisedString
+local function format_time(ticks)
+
+  local modifier = game.speed
+  ticks = ticks / modifier
+
+  local seconds = math.floor(ticks / 60)
+  local minutes = math.floor(seconds / 60)
+  local hours = math.floor(minutes / 60)
+  local days = math.floor(hours / 24)
+
+  ticks = math.floor(ticks % 60)
+  seconds = math.floor(seconds % 60)
+  minutes = math.floor(minutes % 60)
+  hours = math.floor(hours % 24)
+
+  local days_string = { "time.days", days }
+  local hours_string = { "time.hours", hours }
+  local minutes_string = { "time.minutes", minutes }
+  local seconds_string = { "time.seconds", seconds, math.floor(percent(ticks, 0, 60)) }
+
+  local time_string = "" --[[@type LocalisedString]]
+  if days > 0 then
+    time_string = {"", days_string, ", ", hours_string, ", ", minutes_string, ", ", seconds_string}
+  elseif hours > 0 then
+    time_string = {"", hours_string, ", ", minutes_string, ", ", seconds_string}
+  elseif minutes > 0 then
+    time_string = {"", minutes_string, ", ", seconds_string}
+  else
+    time_string = seconds_string
+  end
+
+  return time_string
+end
+
 local function format_color_for_rich_text(color)
   if type(color) == "table" then
     local r = math.floor((color.r or 0) * 255)
