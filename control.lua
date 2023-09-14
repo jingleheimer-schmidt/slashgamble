@@ -97,6 +97,7 @@ local function gamble_all(player, parameters)
   end
   local currency_name = settings.global["gamble-currency"].value --[[@as string]]
   local currency_count = player_inventory.get_item_count(currency_name)
+  game.print({ "cmd.gamble-all", player.name, format_color_for_rich_text(player.chat_color) })
   gamble_number(player, tostring(currency_count))
 end
 
@@ -111,6 +112,7 @@ local function gamble_half(player, parameters)
   local currency_name = settings.global["gamble-currency"].value --[[@as string]]
   local currency_count = player_inventory.get_item_count(currency_name)
   local half_currency_count = math.floor(currency_count / 2)
+  game.print({ "cmd.gamble-half", player.name, format_color_for_rich_text(player.chat_color) })
   gamble_number(player, tostring(half_currency_count))
 end
 
@@ -125,6 +127,7 @@ local function gamble_random(player, parameters)
   local currency_name = settings.global["gamble-currency"].value --[[@as string]]
   local currency_count = player_inventory.get_item_count(currency_name)
   local random_currency_count = math.random(1, currency_count)
+  game.print({ "cmd.gamble-random", player.name, format_color_for_rich_text(player.chat_color) })
   gamble_number(player, tostring(random_currency_count))
 end
 
