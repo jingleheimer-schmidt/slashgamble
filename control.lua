@@ -175,11 +175,17 @@ local function gamble(player, parameter)
   local winnings = math.random(gamble_min, gamble_max)
   inventory.remove({ name = currency_name, count = gamble_amount })
 
-  if winnings > 250 then
-    inventory.insert({ name = currency_name, count = math.floor(winnings - 250) })
-    player.surface.spill_item_stack(player.position, { name = currency_name, count = 250 }, true)
+  local spill_amount = 250
+  if winnings > spill_amount then
+    local insert_amount = math.floor(winnings - spill_amount)
+    local insert_stack = { name = currency_name, count = insert_amount }
+    local inserted = inventory.insert(insert_stack)
+    spill_amount = spill_amount + (insert_amount - inserted)
+    local spill_stack = { name = currency_name, count = spill_amount }
+    player.surface.spill_item_stack(player.position, spill_stack, true)
   elseif winnings > 0 then
-    player.surface.spill_item_stack(player.position, { name = currency_name, count = winnings }, true)
+    local spill_stack = { name = currency_name, count = winnings }
+    player.surface.spill_item_stack(player.position, spill_stack, true)
   end
 
   game.print({ "cmd.gamble-amount", player.name, chat_color, parameter })
