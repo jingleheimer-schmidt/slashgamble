@@ -9,6 +9,47 @@ local function percent(value, min, max)
   end
 end
 
+local function format_number(number)
+  local abbreviations = {
+    "",
+    "K",   -- Thousand
+    "M",   -- Million
+    "B",   -- Billion
+    "T",   -- Trillion
+    "Qa",  -- Quadrillion
+    "Qi",  -- Quintillion
+    "Sx",  -- Sextillion
+    "Sp",  -- Septillion
+    "Oc",  -- Octillion
+    "No",  -- Nonillion
+    "Dc",  -- Decillion
+    "Ud",  -- Undecillion
+    "Dd",  -- Duodecillion
+    "Td",  -- Tredecillion
+    "Qad", -- Quattuordecillion
+    "Qid", -- Quindecillion
+    "Sxd", -- Sexdecillion
+    "Spd", -- Septendecillion
+    "Ocd", -- Octodecillion
+    "Nod", -- Novemdecillion
+    "Vg",  -- Vigintillion
+    "Uvg", -- Unvigintillion
+  }
+
+  local abs_number = math.abs(number)
+  local num_abbreviation = 1
+
+  while abs_number >= 1000 and num_abbreviation < #abbreviations do
+    abs_number = abs_number / 1000
+    num_abbreviation = num_abbreviation + 1
+  end
+
+  local formatted_number = abs_number >= 1 and string.format("%.2f", abs_number) or string.format("%.0f", abs_number)
+  formatted_number = formatted_number:gsub("^0+(%d+%.%d+)$", "%1")  -- Remove leading zeros
+  formatted_number = formatted_number:gsub("%.(0+)", "")            -- Remove trailing .00s
+
+  return formatted_number .. abbreviations[num_abbreviation]
+end
 local function format_color_for_rich_text(color)
   if type(color) == "table" then
     local r = math.floor((color.r or 0) * 255)
