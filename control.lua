@@ -135,7 +135,7 @@ local function gamble(player, parameter)
   elseif parameter:find("random") then
     gamble_amount = math.random(1, currency_count)
   else
-    gamble_amount = tonumber(parameter)
+    gamble_amount = tonumber(parameter) or tonumber(parameter:match("%d+"))
   end
 
   if not gamble_amount or gamble_amount < 1 then
