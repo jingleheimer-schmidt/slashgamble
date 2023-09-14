@@ -57,7 +57,9 @@ local function gamble_number(player, parameters)
     elseif winnings > 0 then
       player.surface.spill_item_stack(player.position, { name = currency_name, count = winnings }, true)
     end
-    player.print({ "cmd.gamble-result", player.name, gamble_amount, winnings, currency_localised_name, winnings - gamble_amount })
+    game.print({ "cmd.gamble-result", player.name, gamble_amount, winnings, currency_localised_name, winnings - gamble_amount })
+  end
+end
 
 -- Define a function that converts a Color to a rich text color string
 ---@param color Color
