@@ -106,9 +106,14 @@ local function gamble(player, parameter)
     return
   end
 
+  local chat_color = format_color_for_rich_text(player.chat_color)
+  local player_name = player.name
+  local player_index = player.index
+  local game_tick = game.tick
+
   local inventory = player.get_main_inventory()
   if not inventory or not inventory.valid then
-    player.print({ "cmd.gamble-amount", player.name, format_color_for_rich_text(player.chat_color), parameter })
+    player.print({ "cmd.gamble-amount", player_name, chat_color, parameter })
     player.print({ "cmd.gamble-no-inventory" })
     return
   end
@@ -117,7 +122,7 @@ local function gamble(player, parameter)
   local currency_count = inventory.get_item_count(currency_name)
 
   if currency_count == 0 then
-    player.print({ "cmd.gamble-amount", player.name, format_color_for_rich_text(player.chat_color), parameter })
+    player.print({ "cmd.gamble-amount", player_name, chat_color, parameter })
     player.print({ "cmd.gamble-no-currency", currency_name })
     return
   end
@@ -134,13 +139,13 @@ local function gamble(player, parameter)
   end
 
   if not gamble_amount or gamble_amount < 1 then
-    player.print({ "cmd.gamble-amount", player.name, format_color_for_rich_text(player.chat_color), parameter })
+    player.print({ "cmd.gamble-amount", player_name, chat_color, parameter })
     player.print({ "cmd.gamble-invalid-input" })
     return
   end
 
   if gamble_amount > currency_count then
-    player.print({ "cmd.gamble-amount", player.name, format_color_for_rich_text(player.chat_color), parameter })
+    player.print({ "cmd.gamble-amount", player_name, chat_color, parameter })
     player.print({ "cmd.gamble-not-enough-currency", currency_name })
     return
   end
@@ -177,11 +182,10 @@ local function gamble(player, parameter)
     player.surface.spill_item_stack(player.position, { name = currency_name, count = winnings }, true)
   end
 
-  game.print({ "cmd.gamble-amount", player.name, format_color_for_rich_text(player.chat_color), parameter })
-  local roll_1 = chance
-  local roll_2 = math.ceil(percent(winnings, gamble_min, gamble_max))
+  game.print({ "cmd.gamble-amount", player.name, chat_color, parameter })
 
-  game.print({ "cmd.gamble-result", player.name, gamble_amount, winnings, currency_name, winnings - gamble_amount, roll_1, roll_2 })
+  game.print({ "cmd.gamble-result", player.name, chance, format_number(gamble_amount), currency_name, net_color, net_gain_string })
+
 end
 
 local function add_gamble_command()
