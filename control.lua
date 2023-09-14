@@ -1,11 +1,11 @@
 
-local function percent(value, minValue, maxValue)
-  if value < minValue then
-      return 0
-  elseif value > maxValue then
-      return 100
+local function percent(value, min, max)
+  if value < min then
+    return 0
+  elseif value > max then
+    return 100
   else
-      return ((value - minValue) / (maxValue - minValue)) * 100
+    return ((value - min) / (max - min)) * 100
   end
 end
 
