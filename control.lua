@@ -155,24 +155,36 @@ local function gamble(player, parameter)
 
   gamble_amount = math.floor(gamble_amount)
 
-  if chance > 75 then
-    gamble_min, gamble_max = 1, gamble_amount
-  elseif chance > 50 then
-    gamble_min, gamble_max = math.ceil(gamble_amount / 10), math.ceil(gamble_amount * 2)
-  elseif chance > 25 then
-    gamble_min, gamble_max = math.ceil(gamble_amount / 8), math.ceil(gamble_amount * 3)
-  elseif chance > 5 then
-    gamble_min, gamble_max = math.ceil(gamble_amount / 5), math.ceil(gamble_amount * 5)
-  elseif chance > 1 then
-    gamble_min, gamble_max = math.ceil(gamble_amount / 3), math.ceil(gamble_amount * 8)
+  local winnings = 0
+
+  if chance < 10 then
+    winnings = 0
+  elseif chance < 20 then
+    winnings = gamble_amount / 4
+  elseif chance < 30 then
+    winnings = gamble_amount / 3
+  elseif chance < 40 then
+    winnings = gamble_amount / 2
+  elseif chance < 50 then
+    winnings = gamble_amount * 1
+  elseif chance < 60 then
+    winnings = gamble_amount * 1.5
+  elseif chance < 70 then
+    winnings = gamble_amount * 2
+  elseif chance < 80 then
+    winnings = gamble_amount * 2.5
+  elseif chance < 90 then
+    winnings = gamble_amount * 3
+  elseif chance < 95 then
+    winnings = gamble_amount * 4
+  elseif chance < 99 then
+    winnings = gamble_amount * 5
   else
-    gamble_min, gamble_max = math.ceil(gamble_amount / 2), math.ceil(gamble_amount * 10)
+    winnings = gamble_amount * 10
   end
 
-  gamble_min = math.floor(gamble_min)
-  gamble_max = math.floor(gamble_max)
+  winnings = math.abs(math.floor(winnings))
 
-  local winnings = math.random(gamble_min, gamble_max)
   inventory.remove({ name = currency_name, count = gamble_amount })
 
   local spill_amount = 250
