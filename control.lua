@@ -101,7 +101,6 @@ end
 ---@param player LuaPlayer
 ---@param parameter string?
 local function gamble(player, parameter)
-
   if not parameter or parameter == "" or parameter == "help" then
     player.print({ "cmd.gamble-help" })
     return
