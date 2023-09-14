@@ -111,6 +111,18 @@ local function gamble(player, parameter)
   local player_index = player.index
   local game_tick = game.tick
 
+  global.timeout = global.timeout or {}
+  global.timeout[player_index] = global.timeout[player_index] or 0
+  local last_gamble_tick = global.timeout[player_index]
+  local cooldown = settings.global["gamble-timeout"].value --[[@as int]]
+  local timeout_until_tick = last_gamble_tick + (cooldown * 60)
+
+  if game.tick < timeout_until_tick then
+    player.print({ "cmd.gamble-amount", player.name, chat_color, parameter })
+    player.print({ "cmd.gamble-timeout", format_time(timeout_until_tick - game_tick) })
+    return
+  end
+
   local inventory = player.get_main_inventory()
   if not inventory or not inventory.valid then
     player.print({ "cmd.gamble-amount", player_name, chat_color, parameter })
@@ -207,6 +219,7 @@ local function gamble(player, parameter)
 
   game.print({ "cmd.gamble-result", player.name, chance, format_number(gamble_amount), currency_name, net_color, net_gain_string })
 
+  global.timeout[player_index] = game_tick
 end
 
 local function add_gamble_command()
