@@ -58,6 +58,30 @@ local function gamble_number(player, parameters)
       player.surface.spill_item_stack(player.position, { name = currency_name, count = winnings }, true)
     end
     player.print({ "cmd.gamble-result", player.name, gamble_amount, winnings, currency_localised_name, winnings - gamble_amount })
+
+-- Define a function that converts a Color to a rich text color string
+---@param color Color
+local function format_color_for_rich_text(color)
+  -- Check if the color is a valid table
+  if type(color) == "table" then
+      -- Extract the RGB components (assuming normalized [0, 1] range)
+      local r = color.r or 0
+      local g = color.g or 0
+      local b = color.b or 0
+      
+      -- Convert the RGB components to [0, 255] range
+      r = math.floor(r * 255)
+      g = math.floor(g * 255)
+      b = math.floor(b * 255)
+      
+      -- Create the rich text color string in the format #RRGGBB
+      local richTextColor = string.format("#%02x%02x%02x", r, g, b)
+      
+      -- Return the rich text color string
+      return richTextColor
+  else
+      -- If the input is not a valid table, return an empty string or handle the error as needed
+      return ""
   end
 end
 
