@@ -5,7 +5,7 @@
   "author": "asher_sky",
   "contact": "",
   "homepage": "",
-  "description": "adds the /gamble <all|half|random|amount> command to the game",
+  "description": "adds the /gamble <all | half | random | [amount]> command",
   "factorio_version": "1.1",
   "dependencies": [
     "base >= 1.1.87"
