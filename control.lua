@@ -184,6 +184,10 @@ local function gamble(player, parameter)
 
   game.print({ "cmd.gamble-amount", player.name, chat_color, parameter })
 
+  local net_gain = winnings - gamble_amount
+  local net_color = net_gain >= 0 and "green" or "red"
+  local net_gain_string = net_gain >= 0 and "+" .. format_number(net_gain) or "-" .. format_number(net_gain)
+
   game.print({ "cmd.gamble-result", player.name, chance, format_number(gamble_amount), currency_name, net_color, net_gain_string })
 
 end
