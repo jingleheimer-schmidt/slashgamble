@@ -130,7 +130,13 @@ local function gamble(player, parameter)
     return
   end
 
-  local currency_name = settings.global["gamble-currency"].value
+  local currency_name = settings.global["gamble-currency"].value --[[@as string]]
+  local currency_prototype = game.item_prototypes[currency_name]
+  if not currency_prototype then
+    player.print({ "cmd.gamble-amount", player_name, chat_color, parameter })
+    player.print({ "cmd.gamble-invalid-currency", currency_name })
+    return
+  end
   local currency_count = inventory.get_item_count(currency_name)
 
   if currency_count == 0 then
