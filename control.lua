@@ -1,3 +1,8 @@
+
+---@param value integer
+---@param min integer
+---@param max integer
+---@return integer
 local function percent(value, min, max)
     if value < min then
         return 0
@@ -8,6 +13,8 @@ local function percent(value, min, max)
     end
 end
 
+---@param number number
+---@return string
 local function format_number(number)
     local abbreviations = {
         "",
@@ -85,6 +92,8 @@ local function format_time(ticks)
     return time_string
 end
 
+---@param color Color
+---@return string
 local function format_color_for_rich_text(color)
     if type(color) == "table" then
         local r = math.floor((color.r or 0) * 255)
