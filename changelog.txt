@@ -2,6 +2,9 @@
 Version: 0.0.3
 Date: ????
   Changes:
+    - updated for Factorio 2.0
+  Locale:
+    - added German (de) locale from Crowdin
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.2
 Date: 28OCT2023
