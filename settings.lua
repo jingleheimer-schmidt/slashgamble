@@ -5,7 +5,7 @@ local currency_setting = {
     setting_type = "runtime-global",
     default_value = "coin",
 }
-data:extend{currency_setting}
+data:extend { currency_setting }
 
 local timeout_setting = {
     type = "int-setting",
@@ -14,4 +14,4 @@ local timeout_setting = {
     default_value = 15,
     minimum_value = 0,
 }
-data:extend{timeout_setting}
+data:extend { timeout_setting }
