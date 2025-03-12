@@ -138,7 +138,7 @@ local function gamble(player, parameter)
     end
 
     local currency_name = settings.global["gamble-currency"].value --[[@as string]]
-    local currency_prototype = game.item_prototypes[currency_name]
+    local currency_prototype = prototypes.item[currency_name]
     if not currency_prototype then
         player.print({ "cmd.gamble-amount", player_name, chat_color, parameter })
         player.print({ "cmd.gamble-invalid-currency", currency_name })
