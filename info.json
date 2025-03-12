@@ -1,13 +1,18 @@
+
 {
-  "name": "slashgamble",
-  "version": "0.0.3",
-  "title": "/gamble",
-  "author": "asher_sky",
-  "contact": "",
-  "homepage": "",
-  "description": "adds the /gamble <all | half | random | [amount]> command",
-  "factorio_version": "1.1",
-  "dependencies": [
-    "base >= 1.1.87"
-  ]
+    "name": "slashgamble",
+    "version": "0.0.3",
+    "title": "/gamble",
+    "author": "asher_sky",
+    "contact": "",
+    "homepage": "",
+    "description": "adds the /gamble <all | half | random | [amount]> command",
+    "factorio_version": "2.0",
+    "dependencies": [
+        "base >= 2.0.0"
+    ],
+    "package": {
+        "readme": "README.md",
+        "sync_portal_details": true
+    }
 }
