@@ -105,6 +105,14 @@ local function format_color_for_rich_text(color)
     end
 end
 
+---@param roll integer
+---@return number
+local function get_multiplier(roll)
+    local base_multiplier = 0.05
+    local growth_amount = 1.055
+    return base_multiplier * (growth_amount ^ (roll - 1))
+end
+
 ---@param player LuaPlayer
 ---@param parameter string?
 local function gamble(player, parameter)
@@ -175,66 +183,36 @@ local function gamble(player, parameter)
         return
     end
 
-    local chance = math.random(0, 100)
-
-    gamble_amount = math.floor(gamble_amount)
-
-    local winnings = 0
-
-    if chance < 10 then
-        winnings = 0
-    elseif chance < 20 then
-        winnings = gamble_amount / 4
-    elseif chance < 30 then
-        winnings = gamble_amount / 3
-    elseif chance < 40 then
-        winnings = gamble_amount / 2
-    elseif chance < 50 then
-        winnings = gamble_amount * 1.1
-    elseif chance < 60 then
-        winnings = gamble_amount * 1.5
-    elseif chance < 70 then
-        winnings = gamble_amount * 2
-    elseif chance < 80 then
-        winnings = gamble_amount * 2.5
-    elseif chance < 90 then
-        winnings = gamble_amount * 3
-    elseif chance < 95 then
-        winnings = gamble_amount * 4
-    elseif chance < 99 then
-        winnings = gamble_amount * 5
-    else
-        winnings = gamble_amount * 10
-    end
-
-    winnings = math.abs(math.ceil(winnings))
-
     inventory.remove({ name = currency_name, count = gamble_amount })
 
-    local spill_amount = 50
-    if winnings > spill_amount then
-        local insert_amount = math.floor(winnings - spill_amount)
+    local chance = math.random(0, 100)
+    local multiplier = chance == 0 and 0 or get_multiplier(chance)
+
+    gamble_amount = math.floor(gamble_amount)
+    local winnings = math.max(1, math.floor(gamble_amount * multiplier))
+    if winnings < 1 then
+        winnings = 0
+    end
+    local net_gain = winnings - gamble_amount
+
+    if winnings > 0 then
+        local insert_amount = math.floor(winnings)
         local insert_stack = { name = currency_name, count = insert_amount }
         local inserted = inventory.insert(insert_stack)
-        spill_amount = spill_amount + (insert_amount - inserted)
-        local spill_stack = { name = currency_name, count = spill_amount }
-        player.surface.spill_item_stack { position = player.position, stack = spill_stack, allow_belts = false, enable_looted = true }
-    elseif winnings > 0 then
-        local spill_stack = { name = currency_name, count = winnings }
-        player.surface.spill_item_stack { position = player.position, stack = spill_stack, allow_belts = false, enable_looted = true }
+        local spill_amount = insert_amount - inserted
+        if spill_amount > 0 then
+            local spill_stack = { name = currency_name, count = spill_amount }
+            player.surface.spill_item_stack { position = player.position, stack = spill_stack, allow_belts = false, enable_looted = true }
+        end
     end
 
     game.print({ "cmd.gamble-amount", player.name, chat_color, parameter })
 
-    local net_gain = winnings - gamble_amount
     local net_color = net_gain >= 0 and "green" or "red"
     local net_gain_string = net_gain >= 0 and "+" .. format_number(net_gain) or "-" .. format_number(net_gain)
 
-    if net_gain > 0 then
-        game.print({ "cmd.gamble-result-won", player.name, chance, net_color, format_number(winnings), net_gain_string, currency_name })
-    else
-        game.print({ "cmd.gamble-result-lost", player.name, chance, net_color, format_number(winnings), net_gain_string, currency_name })
-    end
+    -- __1__ rolled __2__ and won [color=__3__]__4__[/color] __5__! Net gain: __6__ [img=item.__7__]
+    game.print({ "cmd.gamble-result", player.name, chance, net_color, format_number(winnings), currency_prototype.localised_name, net_gain_string, currency_name })
 
     storage.timeout[player_index] = game_tick
 end
