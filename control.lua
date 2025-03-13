@@ -190,7 +190,7 @@ local function gamble(player, parameter)
     elseif chance < 40 then
         winnings = gamble_amount / 2
     elseif chance < 50 then
-        winnings = gamble_amount * 1
+        winnings = gamble_amount * 1.1
     elseif chance < 60 then
         winnings = gamble_amount * 1.5
     elseif chance < 70 then
@@ -207,21 +207,21 @@ local function gamble(player, parameter)
         winnings = gamble_amount * 10
     end
 
-    winnings = math.abs(math.floor(winnings))
+    winnings = math.abs(math.ceil(winnings))
 
     inventory.remove({ name = currency_name, count = gamble_amount })
 
-    local spill_amount = 250
+    local spill_amount = 50
     if winnings > spill_amount then
         local insert_amount = math.floor(winnings - spill_amount)
         local insert_stack = { name = currency_name, count = insert_amount }
         local inserted = inventory.insert(insert_stack)
         spill_amount = spill_amount + (insert_amount - inserted)
         local spill_stack = { name = currency_name, count = spill_amount }
-        player.surface.spill_item_stack(player.position, spill_stack, true)
+        player.surface.spill_item_stack { position = player.position, stack = spill_stack, allow_belts = false, enable_looted = true }
     elseif winnings > 0 then
         local spill_stack = { name = currency_name, count = winnings }
-        player.surface.spill_item_stack(player.position, spill_stack, true)
+        player.surface.spill_item_stack { position = player.position, stack = spill_stack, allow_belts = false, enable_looted = true }
     end
 
     game.print({ "cmd.gamble-amount", player.name, chat_color, parameter })
@@ -230,8 +230,11 @@ local function gamble(player, parameter)
     local net_color = net_gain >= 0 and "green" or "red"
     local net_gain_string = net_gain >= 0 and "+" .. format_number(net_gain) or "-" .. format_number(net_gain)
 
-    game.print({ "cmd.gamble-result", player.name, chance, format_number(gamble_amount), currency_name, net_color,
-        net_gain_string })
+    if net_gain > 0 then
+        game.print({ "cmd.gamble-result-won", player.name, chance, net_color, format_number(winnings), net_gain_string, currency_name })
+    else
+        game.print({ "cmd.gamble-result-lost", player.name, chance, net_color, format_number(winnings), net_gain_string, currency_name })
+    end
 
     storage.timeout[player_index] = game_tick
 end
