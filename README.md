@@ -11,7 +11,7 @@ Rolling a 1 through 57 results in a loss (0 to 1x multiplier), while 58 to 100 i
 
 ---------------------
 # Features
-- Smart Bet Detection: Parameters are parsed via search; `/gamble all!` works the same as `/gamble all`. Priority is "all" > "half" > "random" > [number]
+- Smart Bet Detection: Parameters are parsed via search; `/gamble all!` works the same as `/gamble all`. Priority is `all` > `half` > `random` > `[number]`
 - Smart Notifications: Only successful bets are broadcast to the server, all other notifications are just sent to the player who attempted to gamble
 - Overflow Protection: If you win more than you can carry, the overflow will be spilled onto the ground around you
 - Spam Protection: A per-player command cooldown is enforced. Cooldown can be changed in mod settings. Default cooldown is 15 seconds
