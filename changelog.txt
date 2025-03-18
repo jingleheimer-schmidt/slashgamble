@@ -3,6 +3,7 @@ Version: 0.0.3
 Date: ????
   Changes:
     - updated for Factorio 2.0
+    - updated odds calculation to be more granular
     - updated mod description
   Locale:
     - rephrased chat messages to be more clear and concise
