@@ -6,18 +6,8 @@ Adds the `/gamble <all | half | random | [amount]>` chat command.
 Default currency is coins. Currency can be changed in mod settings.
 
 Odds Breakdown:
-Roll 00 - 09: Win 0.00x
-Roll 10 - 19: Win 0.25x
-Roll 20 - 29: Win 0.33x
-Roll 30 - 39: Win 0.50x
-Roll 40 - 49: Win 1.00x
-Roll 50 - 59: Win 1.50x
-Roll 60 - 69: Win 2.00x
-Roll 70 - 79: Win 2.50x
-Roll 80 - 89: Win 3.00x
-Roll 90 - 94: Win 4.00x
-Roll 95 - 99: Win 5.00x
-Roll 100: Win 10.00x
+`result = bet * 0.05 * (1.055 ^ (roll - 1) )`
+Rolling a 1 through 57 results in a loss (0 to 1x multiplier), while 58 to 100 is a win (1 through 10x multiplier)
 
 ---------------------
 # Features
@@ -31,8 +21,7 @@ Roll 100: Win 10.00x
 # Translation
 Help translate /gamble to more languages: https://crowdin.com/project/factorio-mods-localization
 Currently available locale:
-- English (en)
-- Ukrainian (uk)
+🇺🇸 English (en), 🇩🇪 German (de), 🇺🇦 Ukrainian (uk)
 
 ---------------------
 # Compatibility
