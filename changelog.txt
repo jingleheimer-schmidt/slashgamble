@@ -5,6 +5,7 @@ Date: ????
     - updated for Factorio 2.0
     - updated mod description
   Locale:
+    - rephrased chat messages to be more clear and concise
     - added German (de) locale from Crowdin
 ---------------------------------------------------------------------------------------------------
 Version: 0.0.2
