@@ -192,7 +192,7 @@ local function gamble(player, parameter)
     local multiplier = chance == 0 and 0 or get_multiplier(chance)
 
     gamble_amount = math.floor(gamble_amount)
-    local winnings = math.max(1, math.floor(gamble_amount * multiplier))
+    local winnings = math.floor(gamble_amount * multiplier)
     if winnings < 1 then
         winnings = 0
     end
