@@ -163,10 +163,13 @@ local function gamble(player, parameter)
     local gamble_amount
     if parameter:find("all") then
         gamble_amount = currency_count
+        parameter = parameter .. " [" .. gamble_amount .. "]"
     elseif parameter:find("half") then
         gamble_amount = math.floor(currency_count / 2)
+        parameter = parameter .. " [" .. gamble_amount .. "]"
     elseif parameter:find("random") then
         gamble_amount = math.random(1, currency_count)
+        parameter = parameter .. " [" .. gamble_amount .. "]"
     else
         gamble_amount = tonumber(parameter) or tonumber(parameter:match("%d+"))
     end
@@ -189,7 +192,7 @@ local function gamble(player, parameter)
     local multiplier = chance == 0 and 0 or get_multiplier(chance)
 
     gamble_amount = math.floor(gamble_amount)
-    local winnings = math.max(1, math.floor(gamble_amount * multiplier))
+    local winnings = math.floor(gamble_amount * multiplier)
     if winnings < 1 then
         winnings = 0
     end
@@ -208,11 +211,11 @@ local function gamble(player, parameter)
 
     game.print({ "cmd.gamble-amount", player.name, chat_color, parameter })
 
-    local net_color = net_gain >= 0 and "green" or "red"
+    local net_color = net_gain > 0 and "green" or "red"
     local net_gain_string = net_gain >= 0 and "+" .. format_number(net_gain) or "-" .. format_number(net_gain)
 
-    -- __1__ rolled __2__ and won [color=__3__]__4__[/color] __5__! Net gain: __6__ [img=item.__7__]
-    game.print({ "cmd.gamble-result", player.name, chance, net_color, format_number(winnings), currency_prototype.localised_name, net_gain_string, currency_name })
+    -- __1__ rolled __2__ and won __3__ __4__! Net gain: [color=__5__]__6__[/color] [img=item.__7__]
+    game.print({ "cmd.gamble-result", player.name, chance, format_number(winnings), currency_prototype.localised_name, net_color, net_gain_string, currency_name })
 
     storage.timeout[player_index] = game_tick
 end
